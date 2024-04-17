@@ -1,0 +1,53 @@
+<div>
+    <h1>Formulario para agregar productos:</h1>
+    <div>
+        <form id="formProducts">
+            <div>
+                <label for="title">Título:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="description">Descripción:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div>
+                <label for="price">Precio:</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+            <div>
+                <label for="thumbnail">Imagen:</label>
+                <input type="text" id="thumbnail" name="thumbnail" required>
+            </div>
+            <div>
+                <label for="code">Código:</label>
+                <input type="text" id="code" name="code" required>
+            </div>
+            <div>
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" required>
+            </div>
+            <div>
+                <input type="submit" value="Enviar">
+            </div>
+        </form>
+
+    </div>
+
+    <div>
+        <h2>Lista en tiempo Real de productos: </h2>
+        <br>
+        {{#if products}}
+        <ul>
+            {{#each products}}
+            <li> <p>Nombre del producto: {{this.title}} - Precio: ${{this.price}}  </p><button  onclick="deleteProduct({{this._id}})">Eliminar</button></li>
+            {{/each}}
+        </ul>
+
+        {{else}}
+        <p>No hay productos disponibles</p>
+        {{/if}}
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
