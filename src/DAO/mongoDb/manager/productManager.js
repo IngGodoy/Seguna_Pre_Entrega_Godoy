@@ -1,4 +1,4 @@
-import productModel from "../moldels/productMoldels.js";
+import productModel from "../models/productMoldels.js";
 
 
 class ProductManager {
@@ -12,12 +12,31 @@ class ProductManager {
     };
   };
 
+  
+  async getAll(limit = 10, page = 1, sort = {}, filtro = ""){
+    try {
+        // aqui agrego el metodo para paginar los productos
+        return await productModel.paginate(
+            {
+                category : filtro  
+            },
+            {
+                page,
+                limit, 
+                sort
+            }
+        );
+    } catch (error) {
+        console.log(error);
+    };
+};
+
   async addProduct(newProduct) {
 
-    const {title, description, price, thumbnail, code, stock,status} = newProduct 
+    const {title, description, price, thumbnail, code, stock,status, category} = newProduct 
 
     //verificar si los productos tiene todo los campos
-    if (!title || !description || !code || !price || !stock) {
+    if (!title || !description || !code || !price || !stock || !category) {
         throw new Error('Error al crear el producto');
     };
 
@@ -30,7 +49,7 @@ class ProductManager {
         throw new Error("error codigo del producto ya existente");
     };
 
-    const newProduct = await productModel.create({title, description, price, thumbnail, code, stock});
+    const newProduct = await productModel.create({title, description, price, thumbnail, code, stock, status, category});
     return newProduct; 
 
     } catch (error) {

@@ -7,6 +7,9 @@ const inputPrice = document.getElementById("price");
 const inputThumbnail = document.getElementById("thumbnail");
 const inputCode = document.getElementById("code");
 const inputStock = document.getElementById("stock");
+const inputCategory = document.getElementById("category");
+const inputStatus = document.getElementById("status");
+
 
 formProducts.onsubmit = (event) => {
     event.preventDefault(); // Evitar que se recargue la página antes de enviar los datos
@@ -16,6 +19,9 @@ formProducts.onsubmit = (event) => {
     const thumbnail = inputThumbnail.value;
     const code = inputCode.value;
     const stock = inputStock.value;
+    const category = inputCategory.value;
+    const status = inputStatus.value
+
 
     const newProduct = {
         title,
@@ -23,7 +29,9 @@ formProducts.onsubmit = (event) => {
         price,
         thumbnail,
         code,
-        stock
+        stock,
+        category,
+        status
     };
 
     socketClient.emit("newProduct", { ...newProduct });

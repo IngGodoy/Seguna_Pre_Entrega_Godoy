@@ -6,24 +6,30 @@ const productsManager = new ProductManager();
 const router =Router();
 
 router.get("/", async (request, response)=>{
-
-    const {limit} = request.query
-
-    try{
-        const products = await productsManager.getProducts();
+    try {
         
-        if(limit <= products.length && limit > 0 ){
-            const newProducts =[];
-            for (let i = 0; i < limit; i++) {
-                newProducts.push(products[i]);
-              };
-            response.status(200).json(newProducts);
-        }else{
-            response.status(200).json(products);
-        };    
-    }catch (error){
-        response.status(500).json(error.message);
+        const {limit, page, sort, filtro} = request.query
+        const products = await productsManager.getAll(limit, page, sort, filtro);
+        console.log("productos del get all",products) // borrar
+
+        const next = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
+        const prev = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : null;
+        
+        // respuesta en formato de paginación
+        response.status(200).json({
+            payload: products.docs,
+            info: {
+             count: products.totalDocs,
+             pages: products.totalPages,
+             next,
+             prev
+            }
+        }); 
+        
+    } catch (error) {
+        console.log(error)
     };
+    
 });
 
 router.get("/:pid", async (request, response)=>{
@@ -80,6 +86,8 @@ router.delete("/:pid", async (request, response)=>{
         response.status(500).json(error.message);
     };  
 });
+
+
 
 
 

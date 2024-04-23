@@ -1,6 +1,6 @@
 import {Router} from "express";
-import {CartsManager} from "../DAO/fileSistem/manager/cartsManager.js"
-import fs from "fs";
+import {CartsManager} from "../DAO/mongoDb/models/cartModels.js"
+//import fs from "fs";
 
 const router = Router();
 const cartsManager = new CartsManager();
