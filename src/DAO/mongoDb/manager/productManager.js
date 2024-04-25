@@ -13,18 +13,19 @@ class ProductManager {
   };
 
   
-  async getAll(limit = 10, page = 1, sort = {}, filtro = ""){
+  async getAll(limit = 10, page = 1, sort = {}, category = ""){
     try {
+      
+      let filter
+      if (category == ""){
+        filter = {}
+      }else{
+        filter = {category : category }
+      }
+ 
         // aqui agrego el metodo para paginar los productos
         return await productModel.paginate(
-            {
-                category : filtro  
-            },
-            {
-                page,
-                limit, 
-                sort
-            }
+          filter , { limit: limit, page: page, sort: sort }
         );
     } catch (error) {
         console.log(error);
@@ -33,7 +34,7 @@ class ProductManager {
 
   async addProduct(newProduct) {
 
-    const {title, description, price, thumbnail, code, stock,status, category} = newProduct 
+    const {title, description, price, thumbnail, code, stock, status, category} = newProduct 
 
     //verificar si los productos tiene todo los campos
     if (!title || !description || !code || !price || !stock || !category) {

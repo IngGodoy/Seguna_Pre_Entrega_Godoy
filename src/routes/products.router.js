@@ -8,8 +8,8 @@ const router =Router();
 router.get("/", async (request, response)=>{
     try {
         
-        const {limit, page, sort, filtro} = request.query
-        const products = await productsManager.getAll(limit, page, sort, filtro);
+        const {limit, page, sort, category} = request.query
+        const products = await productsManager.getAll(limit, page, sort, category);
         console.log("productos del get all",products) // borrar
 
         const next = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : null;
